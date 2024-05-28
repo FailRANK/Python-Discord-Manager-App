@@ -1,3 +1,2 @@
-Help
-Hello
-Bye
+hi
+bye

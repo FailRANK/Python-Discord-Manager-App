@@ -13,8 +13,8 @@ command = commands_file.readlines()
 responses = responses_file.readlines()
 
 #Change token to your bot
-token = "your own token"
-channelid = "your own channelid"
+token = open("Data/token.txt", "r").read()
+channelid = open("Data/channelid.txt", "r").read()
 prefix = commandprefix_file.read()
 bot = commands.Bot(command_prefix=prefix,intents=discord.Intents.all())
 
@@ -50,6 +50,6 @@ async def on_message(message):
                 await channel.send(responses[line])
                 return
             line+=1
-        await channel.send("Unkown command type !Help for help")
+        await channel.send("Unkown command")
 #initialize the bot
 bot.run(token)
