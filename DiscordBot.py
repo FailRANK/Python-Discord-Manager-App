@@ -13,8 +13,8 @@ command = commands_file.readlines()
 responses = responses_file.readlines()
 
 #Change token to your bot
-token = "MTA3NDA1MzMwODY1MTY3MTYwMw.GsfSAw.kXwoNkgKDTPMsNgRJi1TfJNVg9cgwOu7wq2Ecw"
-channelid = 1075216430099857479
+token = "your own token"
+channelid = "your own channelid"
 prefix = commandprefix_file.read()
 bot = commands.Bot(command_prefix=prefix,intents=discord.Intents.all())
 
