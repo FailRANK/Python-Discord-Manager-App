@@ -1,8 +1,6 @@
 import discord
 from discord.ext import commands, tasks
 
-import asyncio
-
 #Open files to be able to read contents
 on_ready_file = open("Data/on_ready.txt", "r")
 commandprefix_file = open("Data/commandprefix.txt", "r")
@@ -14,7 +12,7 @@ responses = responses_file.readlines()
 
 #Change token to your bot
 token = open("Data/token.txt", "r").read()
-channelid = open("Data/channelid.txt", "r").read()
+channelid = int(open("Data/channelid.txt", "r").read())
 prefix = commandprefix_file.read()
 bot = commands.Bot(command_prefix=prefix,intents=discord.Intents.all())
 
@@ -23,17 +21,15 @@ bot = commands.Bot(command_prefix=prefix,intents=discord.Intents.all())
 async def on_ready():
     print(f'We have logged in as {bot.user}')
     channel = bot.get_channel(channelid)
-    List = on_ready_file.readlines()
-    if List:
-        await channel.send(List[0])
+    if on_ready_file.read().strip() != "":
+        await channel.send(open("Data/on_ready.txt", "r").read())
     await auto_send.start(channel)
 
 @tasks.loop(seconds=1)
 async def auto_send(channel : discord.TextChannel):
     message_file = open("Data/message.txt", "r")
-    List = message_file.readlines()
-    if List:
-        await channel.send(List[0])
+    if message_file.read().strip() != "":
+        await channel.send(open("Data/message.txt", "r").read())
         message_file = open("Data/message.txt", "w")
         message_file.write("")
     message_file.close()
@@ -50,6 +46,6 @@ async def on_message(message):
                 await channel.send(responses[line])
                 return
             line+=1
-        await channel.send("Unkown command")
+        await channel.send("Unknown Command")
 #initialize the bot
 bot.run(token)
