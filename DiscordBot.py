@@ -25,7 +25,7 @@ async def on_ready():
         await channel.send(open("Data/on_ready.txt", "r").read())
     await auto_send.start(channel)
 
-@tasks.loop(seconds=1)
+@tasks.loop(seconds=0)
 async def auto_send(channel : discord.TextChannel):
     message_file = open("Data/message.txt", "r")
     if message_file.read().strip() != "":
