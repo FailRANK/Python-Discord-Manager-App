@@ -54,20 +54,20 @@ def ShowCommands():
     SetHeaderAndInfo(["Data/commands.txt", "Data/responses.txt"], "Current Commands and Responses", True)
 
     def SetCommands():
-        if textbox1.get('1.0', tk.END).isspace() or textbox2.get('1.0', tk.END).isspace():
+        if CTB.get('1.0', tk.END).isspace() or RPTB.get('1.0', tk.END).isspace():
             messagebox.showinfo("Error", "Invalid Input")
             return
-        SetFileContent("Data/commands.txt", "a", textbox1.get('1.0', tk.END))
-        SetFileContent("Data/responses.txt", "a", textbox2.get('1.0', tk.END))
+        SetFileContent("Data/commands.txt", "a", CTB.get('1.0', tk.END))
+        SetFileContent("Data/responses.txt", "a", RPTB.get('1.0', tk.END))
         ShowCommands()
 
     def Remove():
-        if not textbox3.get('1.0', tk.END).strip().isnumeric():
+        if not RTB.get('1.0', tk.END).strip().isnumeric():
             messagebox.showinfo("Error", "Invalid Input")
             return
         commandstxt = open("Data/commands.txt")
         responsestxt = open("Data/responses.txt")
-        number = textbox3.get('1.0', tk.END).strip()
+        number = RTB.get('1.0', tk.END).strip()
         with open('Data/commands.txt', 'r') as fr:
             # reading line by line
             lines = fr.readlines()
@@ -112,23 +112,23 @@ def ShowCommands():
     frame = tk.Frame(Display,bg=bgcolor)
     frame.pack(pady=5)
 
-    textbox1 = tk.Text(frame, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor, width=40)
-    textbox1.pack(padx = 10, side=tk.LEFT)
+    CTB = tk.Text(frame, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor, width=40)
+    CTB.pack(padx = 10, side=tk.LEFT)
 
-    textbox2 = tk.Text(frame, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor, width=40)
-    textbox2.pack(padx = 10, side=tk.LEFT)
+    RPTB = tk.Text(frame, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor, width=40)
+    RPTB.pack(padx = 10, side=tk.LEFT)
 
-    button = tk.Button(Display, text="Set", font=BoldTextFont, command=SetCommands, bg=buttonbgcolor, fg=fgcolor)
-    button.pack()
+    NCRB = tk.Button(Display, text="Set", font=BoldTextFont, command=SetCommands, bg=buttonbgcolor, fg=fgcolor)
+    NCRB.pack()
     
     index = tk.Label(Display, text="Index", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     index.pack(pady = (10,0))
 
-    textbox3 = tk.Text(Display, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor, width = 20)
-    textbox3.pack(pady = 5)
+    RTB = tk.Text(Display, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor, width = 20)
+    RTB.pack(pady = 5)
 
-    button5 = tk.Button(Display, text="Remove", font=BoldTextFont, command=Remove, bg=buttonbgcolor, fg=fgcolor)
-    button5.pack()
+    RB = tk.Button(Display, text="Remove", font=BoldTextFont, command=Remove, bg=buttonbgcolor, fg=fgcolor)
+    RB.pack()
 #See the ready message and be able to change it
 def ShowStartup():
     Clear()
@@ -141,7 +141,7 @@ def ShowStartup():
 
     def SetOn_ready():
         Text = NSUMTB.get('1.0', tk.END).strip()
-        SetFileContent("Data/on_ready.txt", "w")
+        SetFileContent("Data/on_ready.txt", "w", Text)
         ShowStartup()
 
     NSUM = tk.Label(Display, text="New Start Up Message", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
