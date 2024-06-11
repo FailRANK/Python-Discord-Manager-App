@@ -4,6 +4,8 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 #Value used to hide discord token (very important to not show)
 Hidden = True
+
+Tab = 4
 #Sets the window dimensions, title, and icon
 Window = tk.Tk()
 Window.state("zoomed")
@@ -14,6 +16,7 @@ photo = ImageTk.PhotoImage(ico)
 Window.wm_iconphoto(False, photo)
 #Gets the theme that was saved
 ThemeData = open("Data/themedata.txt", "r").read()
+
 Token = open("Data/token.txt", "r").read()
 #Sets text
 BoldTextFont = ("Arial", 15, "bold")
@@ -21,6 +24,10 @@ TextFont = ("Arial", 15)
 #See the command prefix and be able to change it
 def ShowCommandPrefix():
     Clear()
+
+    CPB.config(fg="#00ff00")
+    global Tab
+    Tab = 1
 
     SetHeaderAndInfo("Data/commandprefix.txt", "Current Command Prefix", None)
 
@@ -39,6 +46,10 @@ def ShowCommandPrefix():
 #See the commands and be able to change it
 def ShowCommands():
     Clear()
+
+    CB.config(fg="#00ff00")
+    global Tab
+    Tab = 2
 
     SetHeaderAndInfo(["Data/commands.txt", "Data/responses.txt"], "Current Commands and Responses", True)
 
@@ -122,6 +133,10 @@ def ShowCommands():
 def ShowStartup():
     Clear()
 
+    ORMB.config(fg="#00ff00")
+    global Tab
+    Tab = 3
+
     SetHeaderAndInfo("Data/on_ready.txt", "Current Start Up Message", None)
 
     def SetOn_ready():
@@ -140,6 +155,10 @@ def ShowStartup():
 #Send Message
 def ShowSendMessage():
     Clear()
+
+    SCMB.config(fg="#00ff00")
+    global Tab
+    Tab = 4
 
     def message():
         if CMTB.get('1.0', tk.END).isspace():
@@ -161,6 +180,10 @@ def ShowSendMessage():
 #Set up token
 def Setup():
     Clear()
+    
+    SP.config(fg="#00ff00")
+    global Tab
+    Tab = 5
 
     if Hidden:
         show = "Unhide"
@@ -202,7 +225,7 @@ def Setup():
     CTB2 = tk.Button(Display, text=show, font=BoldTextFont, command=hidey, bg=buttonbgcolor, fg=fgcolor)
     CTB2.pack(pady=(5,10))
 
-    CCI = tk.Label(Display, text="Current Channel ID", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
+    CCI = tk.Label(Display, text="Channel ID", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     CCI.pack()
 
     file=open("Data/channelid.txt", "r")
@@ -215,7 +238,7 @@ def Setup():
     CCITB = tk.Text(Display, height=1, font=TextFont, bg=textboxbgcolor, fg=fgcolor)
     CCITB.pack(pady = 5)
 
-    CCIB = tk.Button(Display, text="Set Channel ID", font=BoldTextFont, command=SetChannel, bg=buttonbgcolor, fg=fgcolor)
+    CCIB = tk.Button(Display, text="Set", font=BoldTextFont, command=SetChannel, bg=buttonbgcolor, fg=fgcolor)
     CCIB.pack()
 
 #Changes window theme
@@ -238,6 +261,8 @@ def ChangeTheme():
 def Clear():
     Header.config(text="")
     Info.config(text="")
+    for i in ButtonFrame.winfo_children():
+        i.config(fg=fgcolor)
     for i in Display.winfo_children():
         i.destroy()
 #Sets file content
@@ -277,6 +302,11 @@ def Main():
     global fgcolor
     global buttonbgcolor
     global textboxbgcolor
+    global ButtonFrame
+    global CPB
+    global CB
+    global ORMB
+    global SCMB
     #Sets Theme
     if ThemeData == "Light":
         bgcolor = "#ffffff"
@@ -324,8 +354,19 @@ def Main():
 
     Theme = tk.Button(Window, text="Theme: " + ThemeData, command=ChangeTheme, font=BoldTextFont, bg=buttonbgcolor, fg=fgcolor)
     Theme.pack(side=tk.BOTTOM)
-
+    
     Notice()
+
+    if Tab == 1:
+        ShowCommandPrefix()
+    elif Tab == 2:
+        ShowCommands()
+    elif Tab == 3:
+        ShowStartup()
+    elif Tab == 4:
+        ShowSendMessage()
+    else:
+        Setup()
 
 Main()
 
