@@ -1,10 +1,10 @@
-#Import libaries to help create a application window
+#Imported libaries to create a application window
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
 #Value used to hide discord token (very important to not show)
 Hidden = True
-
+#Used to know what tab you're on from left to right
 Tab = 4
 #Sets the window dimensions, title, and icon
 Window = tk.Tk()
@@ -16,25 +16,26 @@ photo = ImageTk.PhotoImage(ico)
 Window.wm_iconphoto(False, photo)
 #Gets the theme that was saved
 ThemeData = open("Data/themedata.txt", "r").read()
-
+#Reads the discord token
 Token = open("Data/token.txt", "r").read()
 #Sets text
 BoldTextFont = ("Arial", 15, "bold")
 TextFont = ("Arial", 15)
 #See the command prefix and be able to change it
 def ShowCommandPrefix():
+    #Clears the previous tab
     Clear()
-
+    #Change colour of button to green and changes tab value
     CPB.config(fg="#00ff00")
     global Tab
     Tab = 1
-
+    #Changes header name and info
     SetHeaderAndInfo("Data/commandprefix.txt", "Current Command Prefix", None)
-
+    #Writes the text inputed and refresh GUI
     def SetCommandPrefix():
         SetFileContent("Data/commandprefix.txt", "w", NCPTB.get('1.0', tk.END).strip())
         ShowCommandPrefix()
-
+    #Sets GUI elements
     NCP = tk.Label(Display, text="New Command Prefix", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     NCP.pack()
 
@@ -45,14 +46,15 @@ def ShowCommandPrefix():
     NCPB.pack()
 #See the commands and be able to change it
 def ShowCommands():
+    #Clears the previous tab
     Clear()
-
+    #Change colour of button to green and changes tab value
     CB.config(fg="#00ff00")
     global Tab
     Tab = 2
-
+    #Changes header name and info
     SetHeaderAndInfo(["Data/commands.txt", "Data/responses.txt"], "Current Commands and Responses", True)
-
+    #Writes the text inputed and refresh GUI
     def SetCommands():
         if CTB.get('1.0', tk.END).isspace() or RPTB.get('1.0', tk.END).isspace():
             messagebox.showinfo("Error", "Invalid Input")
@@ -60,7 +62,7 @@ def ShowCommands():
         SetFileContent("Data/commands.txt", "a", CTB.get('1.0', tk.END))
         SetFileContent("Data/responses.txt", "a", RPTB.get('1.0', tk.END))
         ShowCommands()
-
+    #Removes the index inputed and refresh GUI
     def Remove():
         if not RTB.get('1.0', tk.END).strip().isnumeric():
             messagebox.showinfo("Error", "Invalid Input")
@@ -105,7 +107,7 @@ def ShowCommands():
         fr.close()
         fw.close()
         ShowCommands()
-        
+    #Sets GUI elements
     NCR = tk.Label(Display, text=" New Commands & Responses", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     NCR.pack()
 
@@ -131,19 +133,20 @@ def ShowCommands():
     RB.pack()
 #See the ready message and be able to change it
 def ShowStartup():
+    #Clears the previous tab
     Clear()
-
+    #Change colour of button to green and changes tab value
     ORMB.config(fg="#00ff00")
     global Tab
     Tab = 3
-
+    #Changes header name and info
     SetHeaderAndInfo("Data/on_ready.txt", "Current Start Up Message", None)
-
+    #Writes the text inputed and refresh GUI
     def SetOn_ready():
         Text = NSUMTB.get('1.0', tk.END).strip()
         SetFileContent("Data/on_ready.txt", "w", Text)
         ShowStartup()
-
+    #Sets GUI elements
     NSUM = tk.Label(Display, text="New Start Up Message", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     NSUM.pack()
 
@@ -154,12 +157,13 @@ def ShowStartup():
     NSUMB.pack()
 #Send Message
 def ShowSendMessage():
+    #Clears the previous tab
     Clear()
-
+    #Change colour of button to green and changes tab value
     SCMB.config(fg="#00ff00")
     global Tab
     Tab = 4
-
+    #Writes the text inputed
     def message():
         if CMTB.get('1.0', tk.END).isspace():
             messagebox.showinfo("Error", "Invalid Input")
@@ -167,7 +171,7 @@ def ShowSendMessage():
         messagetxt = open("Data/message.txt", "w")
         messagetxt.write(CMTB.get('1.0', tk.END))
         messagetxt.close()
-
+    #Sets GUI elements
     CM = tk.Label(Display, text="Channel Message", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     CM.pack()
 
@@ -176,20 +180,20 @@ def ShowSendMessage():
 
     SMB = tk.Button(Display, text="Send Message", command=message, font=BoldTextFont, bg=buttonbgcolor, fg=fgcolor)
     SMB.pack()
-
 #Set up token
 def Setup():
+    #Clears the previous tab
     Clear()
-    
+    #Change colour of button to green and changes tab value
     SP.config(fg="#00ff00")
     global Tab
     Tab = 5
-
+    #Changes a button text depending on the variable state
     if Hidden:
         show = "Unhide"
     else:
         show = "Hide"
-
+    #Depending on the variable state it is hidden or unhidden
     def hidey():
         global Hidden
         if Hidden:
@@ -197,22 +201,23 @@ def Setup():
         else:
             Hidden = True
         Setup()
-
+    #Changes header name and info
     SetHeaderAndInfo("Data/token.txt", "Discord Token", None)
+    #Hide the token info if Hidden is true
     if Hidden:
         Info.config(text="*Hidden*")
-
+    #Writes the text inputed and refresh GUI
     def SetToken():
         Text = CTTB.get('1.0', tk.END).strip()
         SetFileContent("Data/token.txt", "w", Text)
         Notice()
         Setup()
-
+    #Writes the text inputed and refresh GUI
     def SetChannel():
         Text = CCITB.get('1.0', tk.END).strip()
         SetFileContent("Data/channelid.txt", "w", Text)
         Setup()
-
+    #Sets GUI elements
     CT = tk.Label(Display, text="Current Token", font=BoldTextFont, bg=bgcolor, fg=fgcolor)
     CT.pack()
 
@@ -240,7 +245,6 @@ def Setup():
 
     CCIB = tk.Button(Display, text="Set", font=BoldTextFont, command=SetChannel, bg=buttonbgcolor, fg=fgcolor)
     CCIB.pack()
-
 #Changes window theme
 def ChangeTheme():
     global ThemeData
@@ -285,14 +289,13 @@ def SetHeaderAndInfo(name, title, special):
     Header.config(text=title)
     Info.config(text=file.read().strip())
     file.close()
-
-#Notice
+#Notice if token is empty
 def Notice():
     if Token != "":
         SP.config(text="Setup")
     else:
         SP.config(text="Setup [!]")
-
+#Contains all the main components for the window
 def Main():
     global SP
     global Header
@@ -367,7 +370,7 @@ def Main():
         ShowSendMessage()
     else:
         Setup()
-
+#Calls the function
 Main()
-
+#Causes window to not close
 Window.mainloop()
